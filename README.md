@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 # Salient Features
 
-Explore the Screenshots folder !
+Explore the Screenshots folder to look at various components!
 
 ![landing Page](https://github.com/SarthakRout/TestApp/blob/master/Screenshots/Screenshot%20from%202020-09-06%2021-25-51.png)
 
