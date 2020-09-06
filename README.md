@@ -2,6 +2,12 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.8.
 
+# Salient Features
+
+Explore the Screenshots folder !
+
+![landing Page](https://github.com/SarthakRout/TestApp/blob/master/Screenshots/Screenshot%20from%202020-09-06%2021-25-51.png)
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
