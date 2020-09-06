@@ -1,0 +1,39 @@
+<h3 style = "text-align: center;">Register</h3>
+<form [formGroup] = "this.myRegForm">
+  <div class="row">
+    <div class="col-6">
+
+      <label for = "name">Name: </label> <br>
+      <input type = "text" formControlName = "name" class = "form-control">
+
+      <div class="col-xs-6">
+        <label for = "adminId"> Admin ID: </label>
+        <input type = "text" formControlName = "adminId" class = "form-control" >
+      </div>
+
+      <label for = "roll_no">Roll No.: </label> <br>
+      <input type = "text" formControlName = "roll_no" class = "form-control">
+
+    </div>
+
+    <div class="col-6">
+
+      <label for = "email">Email: </label> <br>
+      <input type = "email" formControlName = "email" class = "form-control">
+
+      <label for = "password">Password: (Atleast 6 characters)</label> <br>
+      <input type = "password" formControlName = "password" class = "form-control">
+
+      <label for = "confirmPassword">Confirm Password: </label> <br>
+      <input type = "password" [formControl] = "confirmPassword" class = "form-control">
+
+    </div>
+  </div>
+</form>
+
+<button class="btn btn-primary" (click) = "onSubmit()" style = "border-radius: 20px; margin: 3px;" [disabled] = "!this.myRegForm.valid">Register</button>
+<div class="container"
+*ngIf = "isLoading"
+style="position: fixed; z-index: 50; top: 50vh; left: 45vw">
+  <app-loading-spinner></app-loading-spinner>
+</div>

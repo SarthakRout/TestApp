@@ -1,0 +1,26 @@
+.ng-container {
+  position: absolute;
+  width:100vw;
+  max-height: 100%;
+  top: 50px;
+  padding: 10px;
+}
+.container {
+  background-color: white;
+  border-radius: 10px;
+  padding-top: 10px;
+  overflow-x: hidden;
+}
+.row {
+  margin: 3px;
+}
+.section {
+  text-align: center;
+  width: 15vw;
+  overflow-wrap: break-word;
+}
+/* Game Changer -- Wrapper */
+.wrapper {
+  width:90vw;
+  margin: 0 auto;
+}

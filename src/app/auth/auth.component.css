@@ -1,0 +1,20 @@
+.container {
+  background-color:#3abaad;
+  color: black;
+  margin: 0;
+  max-width: 100%;
+  border-radius: 4px;
+}
+.bottom-outer {
+  background-color: #e9f7f6;
+  border-radius: 3px;
+}
+.btn {
+  border: 1px solid black;
+  margin: 2px;
+}
+.section {
+  margin: 2vw;
+  padding: 5px;
+}
+

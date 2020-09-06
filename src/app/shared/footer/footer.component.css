@@ -1,0 +1,12 @@
+.container {
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 0;
+  background-color: lightgray;
+  max-width: 100vw;
+  width:100%;
+  margin-right: 0;
+  margin-left: 0;
+  border-top: 1px solid rgb(90, 89, 89);
+  z-index: 10;
+}

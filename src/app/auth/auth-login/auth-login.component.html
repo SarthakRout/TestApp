@@ -1,0 +1,13 @@
+<h3 style = "text-align: center;">Login</h3>
+<form [formGroup] = "this.myLoginForm">
+    <label for = "email">Email: </label> <br>
+    <input type = "email" formControlName = "email" class = "form-control"> <br>
+    <label for = "password">Password: </label> <br>
+    <input type = "password" formControlName = "password" class = "form-control">
+</form>
+<button class="btn btn-primary" (click) = "onSubmit()" style = "border-radius: 20px; margin: 3px;" [disabled] = "!this.myLoginForm.valid">Login</button>
+<div class="container"
+*ngIf = "isLoading"
+style="position: fixed; z-index: 50; top: 50vh; left: 45vw">
+  <app-loading-spinner></app-loading-spinner>
+</div>

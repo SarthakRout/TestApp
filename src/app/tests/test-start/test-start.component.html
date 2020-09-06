@@ -1,0 +1,45 @@
+<div class="ng-container" *ngIf = "!testStarted" >
+  <div class="container" >
+    <div class="row wrapper">
+      <div class="section">
+        <h4>Test Name</h4>
+      </div>
+      <div class="section">
+        <h4>Number of Questions</h4>
+      </div>
+      <div class="section">
+        <h4>Test Duration</h4>
+      </div>
+      <div class="section">
+        <h4>Start Exam By</h4>
+      </div>
+      <div class="section">
+        <h4>Start</h4>
+      </div>
+    </div>
+    <hr>
+    <div class="container" *ngFor = "let test of TestPrototypes; let i = index">
+      <div class="row wrapper" *ngIf = "test.options.isActive">
+        <div class="section">
+          {{test.name}}
+        </div>
+        <div class="section">
+          {{test.questionids.length}}
+        </div>
+        <div class="section">
+          {{test.duration}} mins
+        </div>
+        <div class="section">
+          {{test.startbefore | date: 'short'}}
+        </div>
+        <div class="section">
+          <button class="btn btn-primary" (click) = "startTest(i)">
+            Start
+          </button>
+        </div>
+        <hr>
+      </div>
+    </div>
+    <hr>
+  </div>
+</div>

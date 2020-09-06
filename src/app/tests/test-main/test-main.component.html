@@ -1,0 +1,41 @@
+<div class="container" *ngIf = "showSpinner" style= "position: fixed; top: 50vh; left: 50vw; z-index: 50">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+<div class="timer">
+  <div class="container">
+    Time left: {{(counter - counter%60 )/60}} : {{counter%60}}
+  </div>
+</div>
+<div class="cardlike">
+  <h3 style="text-align: center;">{{Test.name}}</h3>
+  <hr>
+  <div class="container">
+    <div class="container" *ngFor  = "let question of Test.questions; let i = index">
+      <h5> {{i+1}} - {{question.statement}} </h5>
+      <hr>
+      <div class="container" *ngFor = "let image of question.images">
+        <img src = "{{image}}" style="max-width: 30vw; height: auto;">
+        <hr>
+      </div>
+      <div class="row" *ngFor = "let option of question.options; let j = index;" style = "align-items: baseline;" (click) = "selectOption($event, i,j)">
+
+        <input type = "radio" name = "{{question.id}}" value = "{{option}}" id = "input{{i}}-{{j}}">
+
+        <div class="col-11" style = "margin-left: 2px; border-radius: 2px; background-color: {{ this.rowcolors[j%2] }}">
+          <label for = "{{option}}">&nbsp;{{option}}</label>
+        </div>
+
+      </div>
+
+      <hr>
+    </div>
+  </div>
+  <div class="row" style = "width: 80vw; margin: 0 auto; text-align: center; padding-bottom: 10px;">
+    <div class="col-12" >
+      <button class="btn btn-success" (click) = submitTest()>
+        Submit
+      </button>
+    </div>
+  </div>
+</div>
+

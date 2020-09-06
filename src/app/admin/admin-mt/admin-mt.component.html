@@ -1,0 +1,112 @@
+<div class="container">
+  <h4>Make a Test !</h4>
+  <h5>Test: </h5>
+  <div class="container">
+
+    <div class="row">
+      <div class="col-12">
+        <label for = "name">Name: </label>
+        <input type = "text" class = "form-control" [formControl] = "name">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <label for = "duration">Duration: (mins)</label>
+        <input type = "text" class = "form-control" [formControl] = "duration">
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-12 col-md-6">
+        <label> Start After :</label>
+        <input type = "text" class = "form-control" id = "dateStartAfter" [formControl] = "after">
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="date" >
+          <label > Start Before (optional) :</label>
+          <input type = "text" class = "form-control" id = "dateStartBefore" [formControl] = "before">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-4 col-md-2">
+        <button class="btn btn-success" *ngIf = "!isTestActive.value" (click) = "ToggleBtn('active')">
+          Activate
+        </button>
+        <button class="btn btn-danger" *ngIf = "isTestActive.value" (click) = "ToggleBtn('active')">
+          Deactivate
+        </button>
+      </div>
+      <div class="col-2 col-md-1">
+        <label>Maxm Attempts:</label>
+      </div>
+      <div class="col-6 col-md-3" style="margin: 2px;">
+        <input type = "text" class = "form-control" [formControl] = "maxAttempts">
+      </div>
+      <div class="col-6 col-md-3">
+        <button class="btn btn-primary" *ngIf = "!toShowScores.value" (click) = "ToggleBtn('scores')">
+          Show Scores
+        </button>
+        <button class="btn btn-secondary" *ngIf = "toShowScores.value" (click) = "ToggleBtn('scores')">
+          Hide Scores
+        </button>
+      </div>
+      <div class="col-6 col-md-3">
+        <button class="btn btn-primary" *ngIf = "!toShowAnswers.value" (click) = "ToggleBtn('answers')">
+          Show Answers
+        </button>
+        <button class="btn btn-secondary" *ngIf = "toShowAnswers.value" (click) = "ToggleBtn('answers')">
+          Hide Answers
+        </button>
+      </div>
+    </div>
+
+    <hr>
+  </div>
+  <div class="container">
+    <div class="container" *ngFor  = "let question of testQuestions; let i = index">
+      <div class="row" (click) = "Toggle($event)" style = "border: 1px solid grey; border-radius: 3px; background-color: ivory;">
+        <h5> {{i + 1}} - {{question.statement}} </h5>
+      </div>
+        <div class="container" style = "display: none;">
+          <hr>
+          <div class="container" *ngFor = "let image of question.images">
+            <img src = "{{image}}" style="max-width: 30vw; height: auto;">
+            <hr>
+          </div>
+          <div class="row" *ngFor = "let option of question.options; let j = index;" style = "align-items: baseline;">
+            <input type = "radio"  name = "{{question.id}}" value = "{{option}}" (click) = "selectOption($event, i,j)">
+            <div class="col-11" style = "margin-left: 2px; border-radius: 2px; background-color: {{ this.rowcolors[j%2] }}" (click) = "selectOption($event, i,j)">
+              <label for = "{{option}}">&nbsp;{{option}}</label>
+            </div>
+          </div>
+          <hr>
+        </div>
+        <hr>
+    </div>
+  </div>
+  <hr>
+  <div class="container">
+    <div class="row" style= "text-align: center; justify-content: space-evenly;">
+      <div class="col-2">
+        <button class="btn btn-success" (click) = "SaveTest()">
+          Save
+        </button>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-danger" (click) = "ClearTest()">
+          Clear
+        </button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <h5>Questions:</h5>
+  <div class="container">
+    <app-admin-show-questions [operation] = "'Add'" (testQuestionEmitter) = "tests($event)"></app-admin-show-questions>
+  </div>
+</div>

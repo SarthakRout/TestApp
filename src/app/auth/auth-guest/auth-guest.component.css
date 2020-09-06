@@ -1,0 +1,10 @@
+.container {
+  width: 50vw;
+  margin-top: 60px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+.row {
+  padding: 5px;
+}

@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="container" *ngFor  = "let question of Questions; let i = index">
+    <div class="row" (click) = "Toggle($event)" style = "border: 1px solid grey; border-radius: 3px; background-color: ivory;">
+      <h5> {{i + 1}} - {{question.statement}} </h5>
+    </div>
+    <div class="container" style = "display: none;">
+      <hr>
+      <div class="container" *ngFor = "let image of question.images">
+        <img src = "{{image}}" style="max-width: 30vw; height: auto;">
+        <hr>
+      </div>
+      <div class="row" *ngFor = "let option of question.options; let j = index;" style = "align-items: baseline;">
+        <input type = "radio"  name = "{{question.id}}" value = "{{option}}" (click) = "selectOption($event, i,j)">
+        <div class="col-11" style = "margin-left: 2px; border-radius: 2px; background-color: {{ this.rowcolors[j%2] }}" (click) = "selectOption($event, i,j)">
+          <label for = "{{option}}">&nbsp;{{option}}</label>
+        </div>
+      </div>
+      <hr>
+      <div class="container">
+        <div class="row">
+          <button class="btn btn-primary" (click) = "GetAnswer(i)">Get Answer</button>
+        </div>
+        <div class="row" *ngFor = "let choice of testAnswers[i].answers">
+          <div class="col-4 col-md-2">
+            <label>{{choice}}</label>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div class="container" >
+      <div class="row">
+        <div class="col-1">
+          <button class="btn btn-secondary" (click) = "ComponentOp(i)" style = "margin: 2px;">
+            {{operation}}
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </div>
+</div>

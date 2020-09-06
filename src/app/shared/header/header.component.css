@@ -1,0 +1,18 @@
+.container {
+  margin-top: 0;
+  background-color: lightgray;
+  max-width: 100vw;
+  width:100%;
+  margin-right: 0;
+  margin-left: 0;
+  border-bottom: 2px solid black;
+  position: fixed;
+  z-index: 10;
+}
+.col, .col-xs-6 {
+  padding: 5px;
+}
+.btn {
+  border: 1px solid rgb(134, 134, 134);
+  background-color: white;
+}

@@ -1,0 +1,34 @@
+<app-header></app-header>
+<div class="container">
+  <h3 style = "text-align: center;">Guest</h3>
+  <form [formGroup] = "this.myGuestForm">
+    <label for = "name">Name: </label> <br>
+    <input type = "text" formControlName = "name" class = "form-control">
+
+    <br>
+
+    <label for = "roll_no">Roll No.: </label> <br>
+    <input type = "text" class = "form-control" formControlName = "roll_no">
+
+    <br>
+
+    <label for = "email">Email: </label> <br>
+    <input type = "email" class = "form-control" formControlName = "email">
+</form>
+<button class="btn btn-primary" (click) = "onSubmit()" style = "margin: 3px;" [disabled] = "!this.myGuestForm.valid">Submit</button>
+
+</div>
+<div class="container" >
+  <div class="row" >
+    <h3>Test Info:</h3>
+  </div>
+  <div class="row" >
+    Test Duration: {{this.testToGive.duration}} mins
+  </div>
+  <div class="row">
+    Questions: {{this.testToGive.questionids.length}}
+  </div>
+  <div class="row">
+    Start Test Before: {{this.testToGive.startbefore | date: 'short'}}
+  </div>
+</div>

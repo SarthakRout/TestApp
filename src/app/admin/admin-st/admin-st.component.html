@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <h4>Available Tests: </h4>
+  </div>
+  <div class="container" *ngFor = "let test of TestPrototypes; let i = index" style=" margin: 2px; border: 1px solid black; border-radius: 3px;">
+    <div class="row">
+      <div class="col-12 col-md-12">
+        <label for = "name"> Name: </label>
+        {{i + 1}} - {{test.name}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <label for = "startafter">Start After:</label>
+        {{test.startafter | date: 'short'}}
+      </div>
+      <div class="col-6">
+        <label for = "startbefore">Start Before:</label>
+        {{test.startbefore | date: 'short'}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <label for = "duration">Duration: </label>
+        {{test.duration}} mins
+      </div>
+      <div class="col-6">
+        <button *ngIf = "!test.options.isActive" class="btn btn-success" (click) = "Toggle(i)">
+          Activate
+        </button>
+        <button *ngIf = "test.options.isActive" class="btn btn-danger" (click) = "Toggle(i)">
+          Deactivate
+        </button>
+      </div>
+    </div>
+  </div>
+  <hr>
+</div>

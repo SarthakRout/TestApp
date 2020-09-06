@@ -1,0 +1,46 @@
+<div class="container overall">
+  <div class="container">
+    <div class="row" *ngIf = "testname" style = "padding-left: 40px;">
+      <h1>{{testname}} has ended successfully.</h1>
+    </div>
+    <div class="row" *ngIf = "!guest">
+      <div class="col-2">
+        <h5>Click to return to tests page.</h5>
+      </div>
+      <div class="col-1">
+        <button class="btn btn-primary" (click) = "goToTests()">
+          Tests
+        </button>
+      </div>
+    </div>
+    <hr>
+    <div class="container" *ngIf = "test.options.showAnswers" style = "border-radius: 5px; border: 1px solid black;">
+      <div class="row" *ngFor = "let answer of answers; let i = index">
+        <div class="container">
+          <div class="row">
+            <label>Question Id: {{test.questionids[i] + 1}} Answers:</label>
+            <!-- <div class="col-12 col-md-6">
+              {{test.questionids[i]}}
+            </div> -->
+            <div class="col-4 col-md-2" *ngFor = "let eachAns of answer.answers">
+              {{eachAns}}
+            </div>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <hr>
+    </div>
+    <div class="container" *ngIf = "test.options.showScore" style = "border-radius: 5px; border: 1px solid black;">
+      <div class="row">
+        <label>Test Score: </label>
+      </div>
+      <div class="row">
+        <h5 >
+          {{score}} / {{len}}
+        </h5>
+      </div>
+    </div>
+    <hr>
+  </div>
+</div>

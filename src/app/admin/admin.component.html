@@ -1,0 +1,33 @@
+<app-header></app-header>
+<div class="container cardlike">
+  <h1>Welcome, {{AdminName}}!</h1>
+  <hr>
+  <div class="container wrapper">
+  <div class="row" style = "padding: 0; justify-content:space-evenly;">
+      <div class="col-6 col-md-2">
+        <button class="btn btn-primary" (click) = "ShowBuilder('makequestion')">
+          Make Question
+        </button>
+      </div>
+      <div class="col-6 col-md-2" >
+        <button class="btn btn-primary" (click) = "ShowBuilder('maketest')">
+          Make Test
+        </button>
+      </div>
+      <div class="col-6 col-md-2">
+        <button class="btn btn-primary" (click) = "ShowBuilder('showquestions')">
+          Show Questions
+        </button>
+      </div>
+      <div class="col-6 col-md-2">
+        <button class="btn btn-primary" (click) = "ShowBuilder('showtests')">
+          Show Tests
+        </button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="container wrapper">
+    <router-outlet></router-outlet>
+  </div>
+</div>

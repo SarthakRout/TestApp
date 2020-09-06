@@ -1,0 +1,143 @@
+<div class="container">
+  <h4>Make Question</h4>
+  <hr>
+  <div class="container">
+    <form [formGroup] = "question">
+      <label for = "statement"> Statement: </label>
+      <div class="row">
+        <div class="col-10">
+          <textarea type = "text" formControlName = "statement" class = "form-control"></textarea>
+        </div>
+      </div>
+      <hr>
+      <label>Images: </label>
+      <div class="container">
+        <div class="row" >
+
+          <div class="col-6">
+            <textarea type = "text" formControlName = "imageSrcdata" class = "form-control"></textarea>
+          </div>
+
+          <div class="col-3">
+            <button class="btn btn-primary" (click) = "Add('imageSrc')">
+              Add Image URL
+            </button>
+
+          </div>
+        </div>
+      </div>
+      <div class="container" formArrayName = "imageSrcs">
+
+        <div class="row" >
+          <div class="col-5" *ngFor = "let imageSrc of getArray('imageSrcs').controls; let i = index" style = "text-align: center;">
+
+            <div>
+              <button class="btn btn-primary" (click) = "Delete('imageSrc', i)">
+                Remove
+              </button>
+            </div>
+
+            <img src = "{{imageSrc.value}}" style="max-width: 30vw; height: auto; margin: 5px; border: 1px solid black">
+
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <label> Options: </label>
+      <div class="container" formArrayName = "options" >
+
+        <div class="row" *ngFor = "let optioncontrol of getArray('options').controls; let i = index">
+
+          <div class="col-1">
+            <label >{{i + 1}}.</label>
+          </div>
+
+          <div class="col-6">
+            <textarea type = "text" [formControl] = "getoption(optioncontrol)" class = "form-control"></textarea>
+          </div>
+
+          <div class="col-1">
+            <button class="btn btn-danger" (click) = "Delete('option',i)">
+              Delete
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-1">
+            <label>{{getArray('options').length + 1}}.</label>
+          </div>
+
+          <div class="col-6">
+            <textarea type = "text" class = "form-control" formControlName = "optiondata" ></textarea>
+          </div>
+
+          <div class="col-1">
+            <button class="btn btn-primary" (click) = "Add('option')">
+              Add
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+      <hr>
+      <div class="container">
+        <label for = "answers">Mark Answers: </label>
+        <div class="row">
+
+          <div class="col-4 col-md-2">
+            <h4> Help:</h4>
+          </div>
+
+          <div class="col-8 col-md-8">
+            <p>
+              If answer is 1st , 3rd and 4th option, add 1,3,4.
+              <br>
+              If answer is (1st, 2nd) or (2nd , 3rd), add 1,2 and again add 2,3
+            </p>
+          </div>
+
+        </div>
+        <div class="row" *ngFor = "let choice of answers; let i = index">
+          <div class="col-4 col-md-2">
+            <label>{{choice}}</label>
+          </div>
+          <div class="col-2 col-md-1">
+            <button class="btn btn-danger" (click) = "DeleteAnswer(i)">Delete</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4 col-md-2">
+            <input type = "text" [formControl] = "answer" class = "form-control">
+          </div>
+          <div class="col-4 col-md-2">
+            <button class="btn btn-primary" (click) = "AddAnswer()" >Add Answer</button>
+          </div>
+        </div>
+      </div>
+      <div class="container" >
+        <div class="row" style= "text-align: center; justify-content: space-evenly;">
+          <div class="col-1">
+            <button class="btn btn-success" (click) = "Save()">
+              Save
+            </button>
+          </div>
+          <div class="col-1">
+            <button class="btn btn-danger" (click) = "Clear()">
+              Clear
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

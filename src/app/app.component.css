@@ -1,0 +1,10 @@
+.fullcoverage {
+  background-color: #3abaad;
+  /* background-image: url('../assets/bg1.jpg'); */
+  padding: 0;
+  max-height: 100%;
+  max-width: 100%;
+  width:100vw;
+  height: 100vh;
+  overflow-y: auto;
+}

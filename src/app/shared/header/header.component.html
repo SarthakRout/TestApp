@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-6">
+      <button class="btn btn-link" (click) = "this.router.navigate(['/'])">
+        Home
+      </button>
+    </div>
+      <div class="col-xs-6">
+        <button class="btn btn-link" (click) = "this.router.navigate(['/help'])">
+          Help
+        </button>
+      </div>
+    <div class="col" style="text-align: right" *ngIf = 'isLoggedIn'>
+        <button class="btn btn-link" (click) = "this.router.navigate(['/logout'])">
+          Logout
+        </button>
+    </div>
+  </div>
+</div>
