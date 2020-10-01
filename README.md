@@ -7,15 +7,17 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
  - You can add as many options with as many answers along with multiple image URLs for any question.
  - You have a portal for the examinee to analyse their performance any time.
 
-## Explore the Screenshots folder to look at various components!
-
-![landing Page](https://github.com/SarthakRout/TestApp/blob/master/Screenshots/Screenshot%20from%202020-09-06%2021-25-51.png)
-
+P.S. If you want to contribute, do check out the issues!.
 # Future Work
   - Encrypt all data stored locally.
   - Add a feature to add audio or PDFs to questions.
   - Add an ability to generate questions random for each examinee
   - Add a feature to make objective questions that can be evaluated manually later.
+  
+ ## Explore the Screenshots folder to look at various components!
+
+![landing Page](https://github.com/SarthakRout/TestApp/blob/master/Screenshots/Screenshot%20from%202020-09-06%2021-25-51.png)
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
