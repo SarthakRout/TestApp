@@ -5,6 +5,8 @@ import { DataService } from '../../shared/data.service';
 import { AuthService } from '../../auth/auth.service';
 import { User, UserDetail } from '../../models/user.model';
 import { Question } from '../../models/question.model';
+import * as CryptoJS from 'crypto-js';
+const encryptionKey = 'supersecretkey';		// CHANGE TO REAL ENVIRONMENT VARIABLE
 
 @Component({
   selector: 'app-test-main',
@@ -35,8 +37,13 @@ export class TestMainComponent implements OnInit {
     this.showSpinner = true;
     // Learn Async Await cycle
     this.userData = this.authService.currentUserDetail;
-    const testData = JSON.parse(localStorage.getItem('test_data'));
-    const user = this.authService.currentUser;
+  	
+		// Decrypt initial test data
+		const encrypted = localStorage.getItem('test_data');
+		const decryptedTestData : string  = CryptoJS.AES.decrypt(localStorage.getItem('test_data'), encryptionKey).toString(CryptoJS.enc.Utf8);
+   	var testData = JSON.parse(decryptedTestData);
+
+		const user = this.authService.currentUser;
     if (user == null) {
       localStorage.clear();
       this.router.navigate(['/', 'auth']);
@@ -158,17 +165,27 @@ export class TestMainComponent implements OnInit {
       this.responses[question] = 0;
     }
     // console.log(elemRef);
-    const testData = JSON.parse(localStorage.getItem('test_data'));
-    testData.responses = this.responses;
-    localStorage.setItem('test_data', JSON.stringify(testData));
+
+		// Decrypt data before parsing
+		const decryptedTestData : string = CryptoJS.AES.decrypt(localStorage.getItem('test_data'), encryptionKey).toString(CryptoJS.enc.Utf8);
+    const testData = JSON.parse(decryptedTestData);
+    
+		// Encrypt and store test data
+		testData.responses = this.responses;
+		const encryptedTestData : string = CryptoJS.AES.encrypt(JSON.stringify(testData),encryptionKey);
+    localStorage.setItem('test_data',encryptedTestData);
   }
 
   submitTest(){
     let nextPos = 0;
     const confirmSubmit  = true ;
     if (confirmSubmit) {
-      // console.log('Test Submitted!');
-      const testData = JSON.parse(localStorage.getItem('test_data'));
+    	// console.log('Test Submitted!');
+     
+			// Decrypt data before parsing
+			const decryptedTestData : string = CryptoJS.AES.decrypt(localStorage.getItem('test_data'), encryptionKey).toString(CryptoJS.enc.Utf8);
+			
+			const testData = JSON.parse(decryptedTestData);
       testData.end_by = Date.now();
       const adminId = this.authService.currentUserDetail.adminId;
       this.dataService.getNextTestPos(testData, adminId).subscribe(

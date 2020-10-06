@@ -4,6 +4,8 @@ import { TestPrototypeModel, Options } from '../../models/test.model';
 import { DataService } from '../../shared/data.service';
 import { Answer } from 'src/app/models/answer.model';
 import { AuthService } from 'src/app/auth/auth.service';
+import * as CryptoJS from 'crypto-js';
+const encryptionKey = 'supersecretkey';		// CHANGE TO REAL ENVIRONMENT VARIABLE
 
 @Component({
   selector: 'app-test-end',
@@ -31,8 +33,11 @@ export class TestEndComponent implements OnInit{
     private dataService: DataService,
     private authService: AuthService){}
   ngOnInit(){
-    const testdata = localStorage.getItem('test_data');
-    const userdata = localStorage.getItem('currentUserDetail');
+		
+		// Decrypt local storage data
+		const testdata = CryptoJS.AES.decrypt(localStorage.getItem('test_data'), encryptionKey).toString(CryptoJS.enc.Utf8);
+		const userdata = CryptoJS.AES.decrypt(localStorage.getItem('currentUserDetail'), encryptionKey).toString(CryptoJS.enc.Utf8);
+    
     if (!!testdata) {
       const timeTaken = localStorage.getItem('time_taken');
       const id =  JSON.parse(testdata).testId;

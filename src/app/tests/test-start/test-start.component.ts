@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../../models/user.model';
 import { AuthService } from '../../auth/auth.service';
 import { DataService } from '../../shared/data.service';
+import * as AES from 'crypto-js/aes';
+const encryptionKey = 'supersecretkey';		// CHANGE TO REAL ENVIRONMENT VARIABLE
 
 @Component({
   selector: 'app-test-start',
@@ -54,7 +56,12 @@ export class TestStartComponent implements OnInit {
       email: this.user.email,
       responses: this.responses
     };
-    localStorage.setItem('test_data', JSON.stringify(test_data));
+		// Encrypt initial test data
+		const stringifiedTestData : string = JSON.stringify(test_data);
+		//console.log(stringifiedTestData);
+		const encryptedData : string = AES.encrypt(stringifiedTestData, encryptionKey)
+
+    localStorage.setItem('test_data', encryptedData);
     // console.log(this.activatedRoute);
     this.router.navigate(['../', id], {relativeTo: this.activatedRoute});
   }
