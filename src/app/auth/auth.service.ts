@@ -7,7 +7,7 @@ import { throwError } from 'rxjs';
 import { DataService } from '../shared/data.service';
 import { SignUpResponse, SignInResponse } from '../models/auth-response.model';
 import { Router } from '@angular/router';
-import * as AES from 'crypto-js/aes';
+import * as CryptoJS from 'crypto-js';
 const encryptionKey = 'supersecretkey';		// CHANGE TO REAL ENVIRONMENT VARIABLE
 
 interface RefreshResponsePayload {
@@ -60,8 +60,8 @@ export class AuthService {
             this.currentUserDetail.password = 'hidden';
             
 						// Encrypt data beforing storing it locally
-						const encryptedCurrentUser : string  = AES.encrypt(JSON.stringify(this.currentUser), encryptionKey);
-						const encryptedCurrentUserDetail : string = AES.encrypt(JSON.stringify(this.currentUserDetail), encryptionKey);
+						const encryptedCurrentUser : string  = CryptoJS.AES.encrypt(JSON.stringify(this.currentUser), encryptionKey);
+						const encryptedCurrentUserDetail : string = CryptoJS.AES.encrypt(JSON.stringify(this.currentUserDetail), encryptionKey);
 						
 						// Save Data in Local Storage
             localStorage.removeItem('currentUser');
@@ -131,8 +131,8 @@ export class AuthService {
               };
 							
 							// Encrypt data beforing storing it locally
-							const encryptedCurrentUser : string = AES.encrypt(JSON.stringify(this.currentUser), encryptionKey);
-							const encryptedCurrentUserDetail : string = AES.encrypt(JSON.stringify(this.currentUserDetail), encryptionKey);
+							const encryptedCurrentUser : string = CryptoJS.AES.encrypt(JSON.stringify(this.currentUser), encryptionKey);
+							const encryptedCurrentUserDetail : string = CryptoJS.AES.encrypt(JSON.stringify(this.currentUserDetail), encryptionKey);
 
 							//const encryptedPassword : string = 
               // Save Data in Local Storage
@@ -179,8 +179,8 @@ export class AuthService {
           roll
         };
 		// Encrypt data beforing storing it locally
-		const encryptedCurrentUser : string = AES.encrypt(JSON.stringify(this.currentUser), encryptionKey);
-		const encryptedCurrentUserDetail : string = AES.encrypt(JSON.stringify(this.currentUserDetail), encryptionKey);
+		const encryptedCurrentUser : string = CryptoJS.AES.encrypt(JSON.stringify(this.currentUser), encryptionKey);
+		const encryptedCurrentUserDetail : string = CryptoJS.AES.encrypt(JSON.stringify(this.currentUserDetail), encryptionKey);
 
     // Save Data in Local Storage
     localStorage.removeItem('currentUser');
@@ -208,8 +208,8 @@ export class AuthService {
   AutoLogin(){
 		
 		// Decrypt data before parsing
-		const decryptedCurrentUser : string = AES.decrypt(localStorage.getItem('currentUser'), encryptionKey);
-		const decryptedCurrentUserDetail : string = AES.decrypt(localStorage.getItem('currentUserDetail'), encryptionKey);
+		const decryptedCurrentUser : string = CryptoJS.AES.decrypt(localStorage.getItem('currentUser'), encryptionKey).toString(CryptoJS.enc.Utf8);
+		const decryptedCurrentUserDetail : string = CryptoJS.AES.decrypt(localStorage.getItem('currentUserDetail'), encryptionKey).toString(CryptoJS.enc.Utf8);
 
     const prevObj: any = JSON.parse(decryptedCurrentUser);
     if (prevObj === null){
