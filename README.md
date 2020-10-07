@@ -9,7 +9,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 P.S. If you want to contribute, do check out the issues!.
 # Future Work
-  - Encrypt all data stored locally.
+  - Encrypt all data stored locally. - Solved by [Matheus Lemos](https://github.com/mlemosf)
   - Add a feature to add audio or PDFs to questions.
   - Add an ability to generate questions random for each examinee
   - Add a feature to make objective questions that can be evaluated manually later.
