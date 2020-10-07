@@ -7,6 +7,8 @@ import { throwError } from 'rxjs';
 import { DataService } from '../shared/data.service';
 import { SignUpResponse, SignInResponse } from '../models/auth-response.model';
 import { Router } from '@angular/router';
+import * as CryptoJS from 'crypto-js';
+const encryptionKey = 'supersecretkey';		// CHANGE TO REAL ENVIRONMENT VARIABLE
 
 interface RefreshResponsePayload {
   expires_in: string;
@@ -18,7 +20,7 @@ interface RefreshResponsePayload {
 }
 @Injectable({providedIn: 'root'})
 export class AuthService {
-  projectURL = '[Redacted]';
+  projectURL = 'https://baluate-74386.firebaseio.com/';
   signUpURL = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + environment.apiKey ;
   signInURL = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + environment.apiKey;
 
@@ -32,7 +34,7 @@ export class AuthService {
     private router: Router){}
 
   Login(email: string, password: string){
-    const postData = {
+		const postData = {
       email,
       password,
       returnSecureToken: true
@@ -56,11 +58,16 @@ export class AuthService {
           (resl: any) => {
             this.currentUserDetail = resl;
             this.currentUserDetail.password = 'hidden';
-            // Save Data in Local Storage
+            
+						// Encrypt data beforing storing it locally
+						const encryptedCurrentUser : string  = CryptoJS.AES.encrypt(JSON.stringify(this.currentUser), encryptionKey);
+						const encryptedCurrentUserDetail : string = CryptoJS.AES.encrypt(JSON.stringify(this.currentUserDetail), encryptionKey);
+						
+						// Save Data in Local Storage
             localStorage.removeItem('currentUser');
             localStorage.removeItem('currentUserDetail');
-            localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
-            localStorage.setItem('currentUserDetail', JSON.stringify(this.currentUserDetail));
+            localStorage.setItem('currentUser', encryptedCurrentUser);
+            localStorage.setItem('currentUserDetail', encryptedCurrentUserDetail);
 
             // console.log(resl);
             if (resl.role === 'admin') {
@@ -86,11 +93,11 @@ export class AuthService {
   }
 
   Register(email: string, password: string, name: string, adminId: string, roll: string){
-    this.http.get(this.projectURL + '/users/' + adminId + '.json').subscribe(
+		this.http.get(this.projectURL + '/users/' + adminId + '.json').subscribe(
       (res: any) => {
         if ((res === null ) || (res.role !== 'admin')) {
-          // console.log(res);
-          window.location.reload();
+          console.log(res[0]);
+          //window.location.reload();
           return;
         }
         else {
@@ -122,11 +129,17 @@ export class AuthService {
                 password: 'hidden',
                 roll
               };
+							
+							// Encrypt data beforing storing it locally
+							const encryptedCurrentUser : string = CryptoJS.AES.encrypt(JSON.stringify(this.currentUser), encryptionKey);
+							const encryptedCurrentUserDetail : string = CryptoJS.AES.encrypt(JSON.stringify(this.currentUserDetail), encryptionKey);
+
+							//const encryptedPassword : string = 
               // Save Data in Local Storage
               localStorage.removeItem('currentUser');
               localStorage.removeItem('currentUserDetail');
-              localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
-              localStorage.setItem('currentUserDetail', JSON.stringify(this.currentUserDetail));
+              localStorage.setItem('currentUser', encryptedCurrentUser);
+              localStorage.setItem('currentUserDetail', encryptedCurrentUserDetail);
               this.dataService.saveUserDetail((resl as SignUpResponse).localId, email, name, 'user', adminId, password, roll);
               this.router.navigate(['/', 'tests', 'start']);
               this.isLoggedIn.emit(true);
@@ -140,7 +153,8 @@ export class AuthService {
         }
       },
       err => {
-        window.location.reload();
+				console.error(err);
+        //window.location.reload();
 
         return;
       }
@@ -164,10 +178,16 @@ export class AuthService {
           password: 'absent',
           roll
         };
+		// Encrypt data beforing storing it locally
+		const encryptedCurrentUser : string = CryptoJS.AES.encrypt(JSON.stringify(this.currentUser), encryptionKey);
+		const encryptedCurrentUserDetail : string = CryptoJS.AES.encrypt(JSON.stringify(this.currentUserDetail), encryptionKey);
+
+    // Save Data in Local Storage
     localStorage.removeItem('currentUser');
     localStorage.removeItem('currentUserDetail');
-    localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
-    localStorage.setItem('currentUserDetail', JSON.stringify(this.currentUserDetail));
+    localStorage.setItem('currentUser', encryptedCurrentUser);
+    localStorage.setItem('currentUserDetail', encryptedCurrentUserDetail);
+
     // this.dataService.saveUserDetail('anon', email, name, 'user', adminId, 'absent', roll);
 
     const responses = new Array(length).fill(0);
@@ -186,15 +206,21 @@ export class AuthService {
   }
 
   AutoLogin(){
-    const prevObj: any = JSON.parse(localStorage.getItem('currentUser'));
+		
+		// Decrypt data before parsing
+		const decryptedCurrentUser : string = CryptoJS.AES.decrypt(localStorage.getItem('currentUser'), encryptionKey).toString(CryptoJS.enc.Utf8);
+		const decryptedCurrentUserDetail : string = CryptoJS.AES.decrypt(localStorage.getItem('currentUserDetail'), encryptionKey).toString(CryptoJS.enc.Utf8);
+
+    const prevObj: any = JSON.parse(decryptedCurrentUser);
     if (prevObj === null){
       this.isLoggedIn.emit(false);
       return 0;
     }
-    const prevUser = new User(prevObj.email, prevObj.id, prevObj._refresh_token, prevObj._token, new Date(prevObj.tokenExpirationDate));
+		    
+		const prevUser = new User(prevObj.email, prevObj.id, prevObj._refresh_token, prevObj._token, new Date(prevObj.tokenExpirationDate));
     if (prevUser.id === 'anon') {
       this.currentUser = prevUser;
-      this.currentUserDetail = JSON.parse(localStorage.getItem('currentUserDetail'));
+      this.currentUserDetail = JSON.parse(decryptedCurrentUserDetail);
       this.isLoggedIn.emit(true);
       return 1;
     }
@@ -205,7 +231,7 @@ export class AuthService {
     }
     else {
       this.currentUser = prevUser;
-      this.currentUserDetail = JSON.parse(localStorage.getItem('currentUserDetail'));
+      this.currentUserDetail = JSON.parse(decryptedCurrentUserDetail);
       this.isLoggedIn.emit(true);
       this.refreshUser();
       return 1;
